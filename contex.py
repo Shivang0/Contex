@@ -3,16 +3,22 @@ import requests
 from pathlib import Path
 import json
 import argparse
+from colorama import init
+from termcolor import colored
 
 def print_usage():
-    print(f'''CONTRACT EXTRACTION  
-Usage: 
+    print(f''' Usage: 
 * python3 {sys.argv[0]} -e [etherscan|bnbscan|snowtrace|fantom] <contract_address>
 * python3 {sys.argv[0]} -e [etherscan|bnbscan|snowtrace|fantom] -f <filename.txt>
 
 filename.txt must contain contract addresses, one on each line.
 ''')
-print(f'''Kindly set API_KEY in .env file.''')
+print(colored("""\n
+    CONTRACT EXTRACTOR v1.0\n""", 'green'))
+
+print(colored("""Kindly set API_KEY in .env file.
+    """, 'red'))
+
 
 # Read the ETHERSCAN_API_KEY from .env
 def get_api_key(endpoint):
@@ -85,7 +91,7 @@ def main():
     addresses = None
     
     # Setup argument parser
-    parser = argparse.ArgumentParser(description='Contract Extractor')
+    parser = argparse.ArgumentParser(description=' Download Verified Contracts from EVM Chains')
     parser.add_argument('-a', '--address', type=str, help='Address of verified contract')
     parser.add_argument('-e', '--endpoint', type=str, choices=['etherscan', 'bnbscan','fantom','snowtrace'], help='\'etherscan\' or \'bnbscan\' or \'fantom\' or \'snowtrace\'')
     parser.add_argument('-f', '--filename', type=str, help='file with list of contract addresses')

@@ -3,9 +3,10 @@
 ```
 Explorers Included are:
 1. Etherscan
-2. Bnbscan
-3. Ftmscan
-4. snowtrace
+2. Polygonscan
+3. Bnbscan
+4. Ftmscan
+5. Snowtrace
 ```
 
 # INSTALLATION

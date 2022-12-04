@@ -8,7 +8,7 @@ from termcolor import colored
 
 def print_usage():
     print(f''' Usage: 
-* python3 {sys.argv[0]} -e [etherscan|bnbscan|snowtrace|fantom|] <contract_address>
+* python3 {sys.argv[0]} -e [etherscan|bnbscan|snowtrace|fantom|polygonscan] <contract_address>
 * python3 {sys.argv[0]} -e [etherscan|bnbscan|snowtrace|fantom|polygonscan] -f <filename.txt>
 
 filename.txt must contain contract addresses, one on each line.
@@ -87,7 +87,7 @@ def download_contract(endpoint, api_key, address):
 
         #source = source.replace('\\\\n', '\\n')
         #print(sources)
-        print(f"[SUCCESS] Fetched contract from address {address}")
+        print(colored(f"[SUCCESS] Fetched contract from address {address}",'green'))
 
 def main():
     api_key = None
@@ -103,13 +103,13 @@ def main():
 
     # Endpoint is required
     if args.endpoint is None:
-        print("[ERROR] An endpoint is required")
+        print(colored(f"[ERROR] An endpoint is required",'red'))
         parser.print_help()
         exit(1)
 
     # Either an address or a file with addresses is required
     if args.address is None and args.filename is None:
-        print("[ERROR] Need a filename with addresses, or an address by itself")
+        print(colored(f"[ERROR] Need a filename with addresses, or an address by itself",'red'))
         parser.print_help()
         exit(1)
 

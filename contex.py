@@ -8,8 +8,8 @@ from termcolor import colored
 
 def print_usage():
     print(f''' Usage: 
-* python3 {sys.argv[0]} -e [etherscan|bnbscan|snowtrace|fantom] <contract_address>
-* python3 {sys.argv[0]} -e [etherscan|bnbscan|snowtrace|fantom] -f <filename.txt>
+* python3 {sys.argv[0]} -e [etherscan|bnbscan|snowtrace|fantom|] <contract_address>
+* python3 {sys.argv[0]} -e [etherscan|bnbscan|snowtrace|fantom|polygonscan] -f <filename.txt>
 
 filename.txt must contain contract addresses, one on each line.
 ''')
@@ -31,6 +31,8 @@ def get_api_key(endpoint):
         api_key_name == 'FANTOM_API_KEY'
     elif endpoint == AVALANCHE_ENDPOINT:
         api_key_name = 'AVALANCHE_API_KEY'
+    elif endpoint == POLYGON_ENDPOINT:
+        api_key_name = 'POLYGONSCAN_API_KEY'
     
     with open('.env', 'r') as f:
         env_contents = f.read()
@@ -46,6 +48,7 @@ ETHERSCAN_ENDPOINT = "https://api.etherscan.io/api?module=contract&action=getsou
 BNBSCAN_ENDPONT = "https://api.bscscan.com/api?module=contract&action=getsourcecode&address={}&apikey={}"
 FANTOM_ENDPONT = "https://api.ftmscan.com/api?module=contract&action=getsourcecode&address={}&apikey={}"
 AVALANCHE_ENDPOINT = "https://api.snowtrace.io/api?module=contract&action=getsourcecode&address={}&apikey={}"
+POLYGON_ENDPOINT = "https://api.polygonscan.com/api?module=contract&action=getsourcecode&address={}&apikey={}"
 
 def download_contract(endpoint, api_key, address):
     Path("extracted_contracts").mkdir(parents=True, exist_ok=True)
@@ -93,7 +96,7 @@ def main():
     # Setup argument parser
     parser = argparse.ArgumentParser(description=' Download Verified Contracts from EVM Chains')
     parser.add_argument('-a', '--address', type=str, help='Address of verified contract')
-    parser.add_argument('-e', '--endpoint', type=str, choices=['etherscan', 'bnbscan','fantom','snowtrace'], help='\'etherscan\' or \'bnbscan\' or \'fantom\' or \'snowtrace\'')
+    parser.add_argument('-e', '--endpoint', type=str, choices=['etherscan', 'bnbscan','fantom','snowtrace','polygonscan'], help='\'etherscan\' or \'bnbscan\' or \'fantom\' or \'snowtrace\' or \'polygonscan\'')
     parser.add_argument('-f', '--filename', type=str, help='file with list of contract addresses')
 
     args = parser.parse_args()
@@ -130,6 +133,8 @@ def main():
         endpoint = FANTOM_ENDPONT
     elif args.endpoint == 'snowtrace':
         endpoint = AVALANCHE_ENDPOINT
+    elif args.endpoint == 'polygonscan':
+        endpoint = POLYGON_ENDPOINT
     
     api_key = get_api_key(endpoint)
 
